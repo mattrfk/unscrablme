@@ -37,6 +37,7 @@ def process_post():
     
     letters = json_in[LETTERS]
     #TODO: make sure letters is clean 
+    #TODO: insure max length of letters: 15? 20?
     solutions = solve(letters, starts_with, ends_with)
     data = {"words": solutions}
     print(data)
