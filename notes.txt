@@ -1,0 +1,20 @@
+
+basic nginx:
+nginx -s reload .. etc
+ps aux | grep nginx
+
+nginx config: 
+# inside http block, outside of server block
+upstream _unscrablme {
+	server localhost:1337 fail_timeout=0;
+}
+
+# inside of server block
+location /unscrablme {
+
+	limit_except POST { deny all; }
+
+	proxy_set_header Host $http_host;
+	proxy_redirect off;
+	proxy_pass http://_unscrablme;
+}
