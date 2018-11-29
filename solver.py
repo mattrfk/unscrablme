@@ -1,24 +1,31 @@
 import sys
 
 WORDFILE = "SOWPODS.txt"
-MAX = 15 # longest word in sowpods is 5
-BLANK = '?'
-blanks = 0
+MAX = 15 # longest word in sowpods is 15
+BLANK = '-'
+blanks_left = 0
 
 def solve(letters, prefix='', suffix=''):
     matches = [] # store the results here
 
-    # extract blanks
-    global blanks 
+
     blanks = letters.count(BLANK)
+    global blanks_left
+    blanks_left = blanks
     if blanks > 0:
         letters = letters.replace(BLANK, '')
 
     with open(WORDFILE) as f:
+
         for line in f:
+            blanks_left = blanks
             w = str(line).rstrip()
-            if ( len(w) > len(letters) + len(prefix) + len(suffix) or
-                 len(w) > MAX ): break
+            if ( len(w) > blanks_left + 
+                          len(letters) + 
+                          len(prefix) + 
+                          len(suffix) or
+                 len(w) > MAX ): 
+                break
 
             word = word_matches(w, letters, prefix, suffix)
             if word:
@@ -43,11 +50,11 @@ def word_matches(w, letters, prefix, suffix):
         else: 
             return False
 
-    global blanks
+    global blanks_left
     for c in w:
         if c not in letters: 
-            if blanks > 0:
-                blanks -= 1
+            if blanks_left > 0:
+                blanks_left -= 1
                 # change word here?
             else:
                 return False

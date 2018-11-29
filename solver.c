@@ -1,30 +1,34 @@
 #include <stdio.h>
 #include <string.h>
 
-//#define DICT "TEST.txt"
-#define DICT "SOWPODS.txt"
+#define DICT "/Users/m/Documents/code/anagram_solver/SOWPODS.txt"
+#define BLANK '-'
+#define NOLL '#'
 
-int cInLetters(int c, char *letters) {
+int blanks_left = 0;
+
+int cInLetters(int c, char *letters, int repl) {
 	char *r = strrchr(letters, c);
 	if(r){
-		*r = '-';
+		*r = repl;
 		return 1;
 	}
 	return 0;
 }
 
+// Can w be made from letters, and does w start with prefix and 
+// end with suffix?
 int word_matches(char* w, char* letters, char* prefix, char* suffix){
 	int min = 0;
-	int wlen = strlen(w);
+	int wlen = strlen(w) - 1; // accounting for \ns  in the file
 	int llen = strlen(letters);
-	char letts[100]; // biggest word in sowpods is 15 characters...
+	int slen = 0, plen = 0; // suffix and prefix length
 
+	char letts[100]; //make a local copy of letters so I can edit it
 	strncpy(letts, letters, 100);
 
-	//printf("prefix: %s\n", prefix);
-
 	if(prefix) {
-		int plen = strlen(prefix);
+		plen = strlen(prefix);
 		for(int n = 0; n < plen; n++) {
 			if(prefix[n] != w[n]) return 0;
 		}
@@ -32,44 +36,68 @@ int word_matches(char* w, char* letters, char* prefix, char* suffix){
 	}
 
 	if(suffix) {
-		int slen = strlen(suffix);
-		for(int n = slen-1, j = wlen-1; n > 0; n--,j--) {
-			//printf("n: %d, j: %d", n, j);
+		slen = strlen(suffix);
+		for(int n = slen-1, j = wlen-1; n >= 0; n--,j--) {
 			if(suffix[n] != w[j]) return 0;
 		}
 		wlen -= slen; // suffix matches, ignore end of word now
 	}
 
 	for(int i = min ;i < wlen; i++){
-		//printf("letts: %s\n", letts);
-		if( i > llen ) return 0; // word longer than letters?
-		if( w[i] != '\n' && !cInLetters(w[i], letts )) {
-			return 0;
+		if( w[i] != '\n' && !cInLetters(w[i], letts, NOLL)) {
+			if( blanks_left > 0) { // you get a free pass
+				blanks_left--;
+			} 
+			else {
+				return 0;
+			}
 		}
 	}
 
 	return 1;
 }
 
-char *solve( char* letters, char* prefix, char* suffix ) {
+int solve( char* letters, char* prefix, char* suffix ) {
 	FILE *fp;
 	char buffer[255];
 
 	fp = fopen(DICT, "r");
 
+	// setup for blanks
+	int num_blanks = 0;
+	for(int i = 0; i < strlen(letters); i++) {
+		if(letters[i] == BLANK) {
+			num_blanks++;
+			letters[i] = NOLL;
+		}
+	}
+
 	int words_found = 0;
-	//TODO: calculate lengths and exit early
+	int length = strlen(prefix) + 
+							 strlen(suffix) + 
+							 strlen(letters) +
+							 num_blanks;
+
 	while(fgets(buffer, 255, (FILE*) fp)) {
-			if(word_matches(buffer, letters, prefix, suffix)) {
-				words_found++;
-				printf("%s", buffer);
-			}
+		if(strlen(buffer) > length) {
+			return 0;
+		}
+
+		blanks_left = num_blanks;
+
+		// trim newlines
+		//cInLetters('\n', buffer, '\0');
+
+		if(word_matches(buffer, letters, prefix, suffix)) {
+			words_found++;
+			printf("%s", buffer);
+		}
 	}
 
 	printf("%d words found\n", words_found);
 
 	fclose(fp);
-	return "one";
+	return 0;
 }
 
 
@@ -83,9 +111,8 @@ int main(int argc, char** argv){
 		char* suffix = "";
 
 		if(argc > 2) prefix = argv[2];
-		if(argc > 3) prefix = argv[3];
+		if(argc > 3) suffix = argv[3];
 
-		printf("solving for '%s'...\n", argv[1]);
 		solve(argv[1], prefix, suffix);
 	}
 }

@@ -8,40 +8,30 @@ trials = [
         ["who",'',''],
         ["thisisatestletters",'',''],
         ["aaeeiioouubcdfgjklmnpqrtwxzyyssss",'',''],
-        #["aaaaabbccddeeffgghhiijjllkkmmnnnooopppqqrrrssstttuuuvvv",'',''],
-        ["???????????",'',''],
-        #["unscrable",'a','s'],
-        ['?????????????','c','s']
+        ["-----------",'',''],
+        ["unscrable",'a','s'],
+        ['-------------','c','s'],
+        ['------------------------','','']
     ]
 
-interpreters = [
-        "pypy3", 
-        "python3", 
-       # "python"
-        ]
+programs = [
+        ["pypy3", "solver.py"],
+        ["python3","solver.py"], 
+        ["./solver"],
+    ]
 
-def speedtest(program, arg, interpreter):
+def speedtest(program, arg):
 
-    [a, b, c] = arg
     t1 = time.time()
-    call([interpreter, program, a, b, c] ,stdout=DEVNULL)
+    call(program + arg, stdout=DEVNULL)
     t2 = time.time()
 
     return t2 - t1
 
 
-for i in interpreters:
-    print("------ testing %s -------" % i)
+for p in programs:
+    print("------ testing %s -------" % p)
     for t in trials:
-        elapsed = speedtest(program, t, i)
+        elapsed = speedtest(p, t)
         print("for '%s' \n\t\tit took %f seconds" % (t, elapsed))
     print()
-
-#print("------ testing c -------" )
-#for t in trials:
-#    t1 = time.time()
-#    [a,b,c] = t
-#    call(["./solver", a, b, c], stdout=DEVNULL)
-#    t2 = time.time()
-#    elapsed = t2-t1
-#    print("for '%s' \n\t\tit took %f seconds" % (t, elapsed))
