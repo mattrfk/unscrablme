@@ -49,4 +49,4 @@ def pack_data(data):
 
 if __name__ == '__main__':
     run(host='0.0.0.0', port=1337,
-        reloader=True, debug=True)
+        reloader=True)

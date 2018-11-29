@@ -1,7 +1,7 @@
 function l(msg){ console.log(msg)}
 function gebi(id){ return document.getElementById(id)}
 
-const RESULT_LIMIT = 1000
+const RESULT_LIMIT = 100000
 
 window.onload = function() {
   let button = gebi("solve")
@@ -34,12 +34,10 @@ function solve() {
 
 		l(o)
 
-		if(o.words !== undefined && o.words.length > 1){
+		if(o.words !== undefined && o.words.length > 0){
 			let words = o.words
-			input.value = words.length
+			//input.value = ''
 
-			//TODO: set limit of how many to display
-			
 			clearWords()
 			displayWords(words)
 			
@@ -55,13 +53,14 @@ function solve() {
 }
 
 function displayWords(words){
-	for(let i = 0; i < words.length && i < RESULT_LIMIT; i++){
 		let p = document.createElement('p')
-		let c = document.createTextNode(words[i])
-		p.appendChild(c)
-		p.setAttribute('id', i)
+		//let c = document.createTextNode('d')
+		//p.appendChild(c)
+		p.setAttribute('id', 'words')
 		p.setAttribute('class', 'word')
 		document.body.appendChild(p)
+	for(let i = words.length-1; i >= 0; i--){
+		p.textContent += " " + words[i]
 	}
 }
 
