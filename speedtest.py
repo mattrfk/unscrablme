@@ -1,23 +1,17 @@
 import time
 from subprocess import call, DEVNULL
 
-program = "solver.py"
-
 trials = [
-        ["what",'',''],
-        ["who",'',''],
-        ["thisisatestletters",'',''],
-        ["aaeeiioouubcdfgjklmnpqrtwxzyyssss",'',''],
-        ["-----------",'',''],
-        ["unscrable",'a','s'],
-        ['-------------','c','s'],
-        ['------------------------','','']
+        ["what"],
+        ["who"],
+        ["thisisatestletters"],
+        ["aaeeiioouubcdfgjklmnpqrtwxzyyssss"],
+        ['__________________________']
     ]
 
 programs = [
-        ["pypy3", "solver.py"],
-        ["python3","solver.py"], 
-        ["./solver"],
+        ["./anagram"],
+        ["./solve_old", "./SOWPODS.txt"],
     ]
 
 def speedtest(program, arg):
@@ -28,10 +22,20 @@ def speedtest(program, arg):
 
     return t2 - t1
 
+def do_test(program, arg):
+    trials = 10
+    results = []
+    for i in range(0,trials):
+        results.append(speedtest(p, t))
+    avg = sum(results) / len(results)
+    print("input: %s, avg of %d trials: %f" % 
+            (arg, trials, avg))
+    print("min: %d, max: %f\n\n" % 
+            (min(results), max(results)))
+
 
 for p in programs:
     print("------ testing %s -------" % p)
     for t in trials:
-        elapsed = speedtest(p, t)
-        print("for '%s' \n\t\tit took %f seconds" % (t, elapsed))
+        do_test(p, t)
     print()

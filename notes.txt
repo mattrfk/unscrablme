@@ -1,4 +1,3 @@
-
 basic nginx:
 nginx -s reload .. etc
 ps aux | grep nginx
