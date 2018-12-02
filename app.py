@@ -1,14 +1,29 @@
-from bottle import (
-        run, request, 
-        hook, post )
+from bottle import ( run, request, hook, post )
 import json
+import subprocess
 
 # my code
-from solver import solve
 
 LETTERS = "letters"
-STARTS = "startswith"
-ENDS = "endswith"
+PREFIX = "prefix"
+SUFFIX = "suffix"
+
+DICT_PATH = "./SOWPODS.txt"
+ANAGRAM = "./solve"
+
+def solve(letters, prefix, suffix):
+    print("solving...")
+    print(ANAGRAM, DICT_PATH, "prefix: ", prefix, "suffix: ", suffix)
+
+    res = subprocess.check_output([ANAGRAM, DICT_PATH, letters, prefix, suffix],
+            universal_newlines=True)
+
+    return res
+
+# check for illegal characters
+# enforce max length
+def clean(s):
+    return s
 
 @hook('before_request')
 def strip_path():
@@ -22,25 +37,23 @@ def process_post():
     except:
         return pack_data("problem with the json")
 
-    if ( not json_in or 
-         not LETTERS in json_in 
-        ):
+    if ( not json_in or not LETTERS in json_in ):
         return pack_data("no good")
 
-    starts_with = ''
-    ends_with = ''
+    prefix = ''
+    suffix = ''
 
-    if STARTS in json_in:
-        starts_with = json_in[STARTS]
-    if ENDS in json_in:
-        ends_with = json_in[ENDS]
+    if PREFIX in json_in:
+        prefix = clean(json_in[PREFIX])
+        print("prefix set to %s" % prefix)
+    if SUFFIX in json_in:
+        suffix = clean(json_in[SUFFIX])
+        print("suffix set to %s" % suffix)
     
-    letters = json_in[LETTERS]
-    #TODO: make sure letters is clean 
-    #TODO: insure max length of letters: 15? 20?
-    solutions = solve(letters, starts_with, ends_with)
-    data = {"words": solutions}
-    print(data)
+    letters = clean(json_in[LETTERS])
+
+    solutions = solve(letters, prefix, suffix)
+    data = {"words": solutions.split('\n')}
     
     return pack_data(data)
 

@@ -1,4 +1,5 @@
-function l(msg){ console.log(msg)}
+function l(msg){ 
+	console.log(msg) }
 function gebi(id){ return document.getElementById(id)}
 
 const RESULT_LIMIT = 100000
@@ -10,12 +11,17 @@ window.onload = function() {
 
 function solve() {
 	let input = gebi("input")
+	let prefix = gebi("prefix")
+	let suffix = gebi("suffix")
 
-	letters = input.value
+	let mainLetters = input.value
+	let prefixLetters = prefix.value
+	let suffixLetters = suffix.value
 
 	let data = { 
-		letters: letters,
-		otherstuff: "what"
+		letters: mainLetters,
+		prefix: prefixLetters,
+		suffix: suffixLetters
 	}
 
 	var request = new XMLHttpRequest();
@@ -40,7 +46,6 @@ function solve() {
 
 			clearWords()
 			displayWords(words)
-			
 		}
 		else {
 			// do something?
@@ -53,12 +58,12 @@ function solve() {
 }
 
 function displayWords(words){
-		let p = document.createElement('p')
-		//let c = document.createTextNode('d')
-		//p.appendChild(c)
-		p.setAttribute('id', 'words')
-		p.setAttribute('class', 'word')
-		document.body.appendChild(p)
+	let p = document.createElement('p')
+	//let c = document.createTextNode('d')
+	//p.appendChild(c)
+	p.setAttribute('id', 'words')
+	p.setAttribute('class', 'word')
+	document.body.appendChild(p)
 	for(let i = words.length-1; i >= 0; i--){
 		p.textContent += " " + words[i]
 	}
