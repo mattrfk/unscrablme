@@ -3,10 +3,25 @@ function l(msg){
 function gebi(id){ return document.getElementById(id)}
 
 const RESULT_LIMIT = 100000
+const API = 'http://10.0.1.14:8080/'
 
 window.onload = function() {
   let button = gebi("solve")
+
+	gebi("input").onkeydown = enter
+	gebi("prefix").onkeydown = enter
+	gebi("suffix").onkeydown = enter
+
 	button.onclick = solve
+}
+
+function enter(event) {
+		l("---solving...")
+	if( event.keyCode === 13 ) {
+		l("solving...")
+		solve()
+		event.preventDefault()
+	}
 }
 
 function solve() {
@@ -24,11 +39,11 @@ function solve() {
 		suffix: suffixLetters
 	}
 
-	var request = new XMLHttpRequest();
+	let request = new XMLHttpRequest();
 
 	request.onload = function () {
 		if (request.status !== 200){
-			input.value = request.status + " - something failed"
+			l(request.status + " - something failed")
 		}
 		let o = ""
 
@@ -52,20 +67,18 @@ function solve() {
 		}
 	}
 
-	request.open('POST', 'http://localhost:8080/unscrablme', true)
+	request.open('POST', API + 'unscrablme', true)
 	request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 	request.send(JSON.stringify(data))
 }
 
 function displayWords(words){
-	let p = document.createElement('p')
-	//let c = document.createTextNode('d')
-	//p.appendChild(c)
-	p.setAttribute('id', 'words')
-	p.setAttribute('class', 'word')
-	document.body.appendChild(p)
 	for(let i = words.length-1; i >= 0; i--){
+		//p.setAttribute('id', 'words')
+		let p = document.createElement('p')
+		p.setAttribute('class', 'word')
 		p.textContent += " " + words[i]
+		document.body.appendChild(p)
 	}
 }
 

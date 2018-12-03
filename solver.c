@@ -41,20 +41,6 @@ int word_matches(char* w, char* letters, char* prefix, char* suffix){
 	char letts[30]; //make a local copy of letters so I can edit it
 	strncpy(letts, letters, 30);
 
-	if(capitals) {
-		for(int i = 0; i < llen; i++) {
-			if(isCapital(letts[i])) {
-				if(wlen <= i || w[i] != toLower(letts[i])) {
-					return 0;
-				}
-				else {
-					letts[i] = NOLL;
-					w[i] = toCapital(w[i]);
-				}
-			}
-		}
-	}
-
 	if(prefix) {
 		plen = strlen(prefix);
 		for(int n = 0; n < plen; n++) {
@@ -69,6 +55,20 @@ int word_matches(char* w, char* letters, char* prefix, char* suffix){
 			if(suffix[n] != w[j]) return 0;
 		}
 		wlen -= slen; // suffix matches, ignore end of word
+	}
+
+	if(capitals) {
+		for(int i = 0; i < llen; i++) {
+			if(isCapital(letts[i])) {
+				if(wlen+plen <= i || w[i+plen] != toLower(letts[i])) {
+					return 0;
+				}
+				else {
+					letts[i] = NOLL;
+					w[i + plen ] = toCapital(w[i + plen]);
+				}
+			}
+		}
 	}
 
 	for(int i = min ;i < wlen; i++){
@@ -154,6 +154,8 @@ int main(int argc, char** argv){
 		if(argc > 3) prefix = argv[3];
 		if(argc > 4) suffix = argv[4];
 
-		return solve(dict, letters, prefix, suffix);
+		solve(dict, letters, prefix, suffix);
+
+		return 0;
 	}
 }

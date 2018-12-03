@@ -8,21 +8,38 @@ LETTERS = "letters"
 PREFIX = "prefix"
 SUFFIX = "suffix"
 
+BLANKS_LIMIT = 5
+LENGTH_LIMIT = 20
+
+BLANK = '_'
+
 DICT_PATH = "./SOWPODS.txt"
 ANAGRAM = "./solve"
 
 def solve(letters, prefix, suffix):
     print("solving...")
-    print(ANAGRAM, DICT_PATH, "prefix: ", prefix, "suffix: ", suffix)
-
-    res = subprocess.check_output([ANAGRAM, DICT_PATH, letters, prefix, suffix],
-            universal_newlines=True)
-
+    print(ANAGRAM, DICT_PATH, "letters:", letters, "prefix: ", prefix, "suffix: ", suffix)
+    
+    try:
+        res = subprocess.check_output(
+                [ANAGRAM, DICT_PATH, letters, prefix, suffix],
+                universal_newlines=True)
+    except subprocess.CalledProcessError:
+        print("got a problem")
+        res = ''
+    
     return res
 
 # check for illegal characters
 # enforce max length
 def clean(s):
+    s = s[:LENGTH_LIMIT]
+
+    s = s.replace('?', BLANK)
+    #TODO: remove all illegal symbols: numbers, etc.
+
+    if s.count(BLANK) > BLANKS_LIMIT:
+        s = s.replace(BLANK, '', s.count(BLANK) - BLANKS_LIMIT)
     return s
 
 @hook('before_request')
@@ -51,7 +68,7 @@ def process_post():
         print("suffix set to %s" % suffix)
     
     letters = clean(json_in[LETTERS])
-
+    
     solutions = solve(letters, prefix, suffix)
     data = {"words": solutions.split('\n')}
     
