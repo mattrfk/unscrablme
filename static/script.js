@@ -45,15 +45,13 @@ function solve() {
 		if (request.status !== 200){
 			l(request.status + " - something failed")
 		}
-		let o = ""
 
+		let o = ""
 		try {
 			o = JSON.parse(request.response)
 		} catch(e) {
 			l(e)
 		}
-
-		l(o)
 
 		if(o.words !== undefined && o.words.length > 0){
 			let words = o.words
@@ -73,12 +71,14 @@ function solve() {
 }
 
 function displayWords(words){
+	results = gebi('results')
+	
 	for(let i = words.length-1; i >= 0; i--){
 		//p.setAttribute('id', 'words')
 		let p = document.createElement('p')
 		p.setAttribute('class', 'word')
 		p.textContent += " " + words[i]
-		document.body.appendChild(p)
+		results.appendChild(p)
 	}
 }
 
