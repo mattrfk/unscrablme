@@ -74,10 +74,10 @@ function displayWords(words){
 	results = gebi('results')
 	
 	for(let i = words.length-1; i >= 0; i--){
-		//p.setAttribute('id', 'words')
+		if(words[i].length === 0) continue
 		let p = document.createElement('p')
 		p.setAttribute('class', 'word')
-		p.textContent += " " + words[i]
+		p.textContent = words[i]
 		results.appendChild(p)
 	}
 }
