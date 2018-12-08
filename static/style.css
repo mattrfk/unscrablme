@@ -1,13 +1,6 @@
-html {
-	height: 100%; /* or else overflow-y don't work */
-}
-
 body {
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-	position: fixed; /* prevent safari overscroll */
 	margin: 0;
+	position: static;
 }
 
 textarea {
@@ -18,10 +11,8 @@ textarea {
 p {
 	width: 50px;
 	margin: 5px;
-	padding-right:2em;
-	column-span: all;
+	padding-right:3em;
 	height: 1.2em;
-
 }
 
 textarea {
@@ -46,40 +37,30 @@ textarea {
 	border-radius:0px;
 }
 
-#container {
-	height: 100%;
-	width: 100%;
-	display: flex;
-	justify-content: flex-start;
-	flex-flow: row wrap;
-	height: 7em;
-}
-
 #header {
 	width: 100%;
 	background-color: blue;
 	position: fixed;
+	height: 6em;
 }
+
 
 #interface {
 	width: 90%;
 	max-width: 400px;
 	margin: auto;
 	margin-top: 1em;
-/*	right: 50%;
-	transform: translate(50%); */
 }
 
 #results {
-	top: 7em;
-	bottom: 0;
 	width: 100%;
-	position: absolute;
+
 	display: flex;
 	flex-wrap: wrap;
-	margin-left: 2em;
-	margin-bottom:1em;
-	overflow-y: auto; /* enable the scroll */
 	align-content: flex-start;
-	-webkit-overflow-scrolling: touch;
+
+	padding-top:6em;
+	margin-left: 2em;
+	padding-right: 2em;
+	padding-bottom: 3px;
 }

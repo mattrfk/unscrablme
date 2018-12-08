@@ -4,6 +4,7 @@ function gebi(id){ return document.getElementById(id)}
 
 const RESULT_LIMIT = 100000
 const API = 'http://10.0.1.14:8080/'
+const DEFINEURL = 'https://duckduckgo.com/?q=define+toothiest'
 
 window.onload = function() {
   let button = gebi("solve")
