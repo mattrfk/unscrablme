@@ -2,9 +2,11 @@ function l(msg){
 	console.log(msg) }
 function gebi(id){ return document.getElementById(id)}
 
-const RESULT_LIMIT = 100000
+const RESULT_LIMIT = 10000
+const BLANK_LIMIT = 5
+const LENGTH_LIMIT = 20
 const API = 'http://10.0.1.14:8080/'
-const DEFINEURL = 'https://duckduckgo.com/?q=define+'
+const DEFINEURL = 'https://duckduckgo.com/?q="define"+'
 
 window.onload = function() {
   let button = gebi("solve")
@@ -33,6 +35,19 @@ function solve() {
 	let mainLetters = input.value
 	let prefixLetters = prefix.value
 	let suffixLetters = suffix.value
+
+	if(mainLetters.length > 20) {
+		mainLetters = mainLetters.substring(0, LENGTH_LIMIT)
+	}
+
+	let blanks = mainLetters.split('?').length - 1
+	if(blanks > BLANK_LIMIT) {
+		for(let i = 0; i < blanks - BLANK_LIMIT; i++) {
+			mainLetters = mainLetters.replace('?', '')
+		}
+	}
+
+	input.value = mainLetters
 
 	let data = { 
 		letters: mainLetters,
@@ -74,7 +89,13 @@ function solve() {
 function displayWords(words){
 	results = gebi('results')
 	
-	for(let i = words.length-1; i >= 0; i--){
+	let len = words.length
+
+	if( len > RESULT_LIMIT) {
+		len = RESULT_LIMIT
+	}
+	
+	for(let i = len-1; i >= 0; i--){
 		if(words[i].length === 0) continue
 		let p = document.createElement('p')
 		p.setAttribute('class', 'word')
