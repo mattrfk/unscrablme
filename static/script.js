@@ -4,7 +4,7 @@ function gebi(id){ return document.getElementById(id)}
 
 const RESULT_LIMIT = 100000
 const API = 'http://10.0.1.14:8080/'
-const DEFINEURL = 'https://duckduckgo.com/?q=define+toothiest'
+const DEFINEURL = 'https://duckduckgo.com/?q=define+'
 
 window.onload = function() {
   let button = gebi("solve")
@@ -80,6 +80,10 @@ function displayWords(words){
 		p.setAttribute('class', 'word')
 		p.textContent = words[i]
 		results.appendChild(p)
+
+		p.onclick = function(event){
+			window.open(DEFINEURL + event.target.textContent)
+		}
 	}
 }
 
