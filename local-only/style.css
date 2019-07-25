@@ -10,11 +10,11 @@ textarea {
   height:28px;
   resize: none;
   font-size: 1em;
-  border: 1px solid #454545;
+  border: 2px solid black;
 }
 
 textarea:focus {
-  border: 1px solid #4AF9FF;
+  border: 2px solid #4AF9FF;
 }
 
 p {
@@ -59,14 +59,14 @@ p {
 }
 
 #solve {
-  position: absolute;
-  width:45px;
-  height:28px;
-  margin-top:1px;
-  margin-left:3px;
-  border-style:none;
-  background: #4AF9FF;
-  border-radius:3px;
+    position: absolute;
+    width: 45px;
+    height: 28px;
+    margin-top: 2px;
+    margin-left: 5px;
+    border-style: none;
+    background: #4AF9FF;
+    border-radius: 2px;
 }
 
 #header {
