@@ -1,5 +1,6 @@
 const Solver = () => {
-  const DICT = "http://10.0.1.5:8000/SOWPODS.txt"
+  //const DICT = "http://10.0.1.5:8000/local-only/SOWPODS.txt"
+  const DICT = "http://cyberpixels.net/anagram/SOWPODS.txt"
   const api = {
     solve: solve
   }
@@ -38,7 +39,7 @@ const Solver = () => {
   function wordMatches(word, letters, prefix, suffix) {
     if(prefix && prefix.length > 0) {
       if(word.startsWith(prefix)) {
-        letters = letters.slice(prefix.length)
+        word = word.slice(prefix.length)
       } else {
         return false
       }
@@ -46,7 +47,7 @@ const Solver = () => {
 
     if(suffix && suffix.length > 0) {
       if(word.endsWith(suffix)) {
-        letters = letters.slice(0, letters.length - suffix.length)
+        word = word.slice(0, word.length - suffix.length)
       } else {
         return false
       }

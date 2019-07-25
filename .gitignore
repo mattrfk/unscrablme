@@ -3,3 +3,5 @@ v
 *.swp
 solve
 anagram
+deploy.sh
+a.out

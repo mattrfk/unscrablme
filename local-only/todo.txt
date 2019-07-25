@@ -2,3 +2,4 @@
 sort by
 group by length
 clear (x) on mobile
+turn off autocap for android

@@ -67,6 +67,7 @@ p {
     border-style: none;
     background: #4AF9FF;
     border-radius: 2px;
+    padding: 0px;
 }
 
 #header {
