@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+  <script src="solver.js"></script>
+</head>
+<body>
+  <div id="header">
+    <div id="interface">
+      <textarea 
+        id="input" 
+        placeholder="Enter some letters. '?' for blanks." 
+        autocapitalize="off"
+        autocorrect="off"
+        ></textarea>
+      <textarea 
+        id="prefix" 
+        placeholder="Must start with"
+        autocapitalize="off"
+        autocorrect="off"
+        ></textarea>
+      <textarea 
+        id="suffix" 
+        placeholder="Must end with"
+        autocapitalize="off"
+        autocorrect="off"
+        ></textarea>
+      <button id="solve">solve</button>
+    </div>
+  </div>
+  <div id="results">
+  </div>
+</body>

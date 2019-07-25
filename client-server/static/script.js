@@ -1,6 +1,5 @@
-function l(msg){ 
-	console.log(msg) }
-function gebi(id){ return document.getElementById(id)}
+function l(msg){ console.log(msg) }
+function gebi(id){ return document.getElementById(id) }
 
 const RESULT_LIMIT = 10000
 const BLANK_LIMIT = 5
@@ -19,15 +18,30 @@ window.onload = function() {
 }
 
 function enter(event) {
-		l("---solving...")
 	if( event.keyCode === 13 ) {
-		l("solving...")
 		solve()
 		event.preventDefault()
 	}
 }
 
+function showError(){
+		let p = document.createElement('p')
+		p.textContent = "very sorry, problem connecting to the server"
+		p.setAttribute("id", "error")
+		p.setAttribute("style", "height:8em")
+		p.setAttribute("style", "width:10em")
+		results.appendChild(p)
+}
+
+function removeError(){
+	let e = gebi("error")
+	if(e !== null) {
+		e.parentElement.removeChild(e)
+	}
+}
+
 function solve() {
+	removeError()
 	let input = gebi("input")
 	let prefix = gebi("prefix")
 	let suffix = gebi("suffix")
@@ -62,7 +76,8 @@ function solve() {
 			l(request.status + " - something failed")
 		}
 
-		let o = ""
+		let o = ''
+		let words = ["problem connecting to the server"]
 		try {
 			o = JSON.parse(request.response)
 		} catch(e) {
@@ -71,13 +86,12 @@ function solve() {
 
 		if(o.words !== undefined && o.words.length > 0){
 			let words = o.words
-			//input.value = ''
 
 			clearWords()
 			displayWords(words)
 		}
 		else {
-			// do something?
+			showError()
 		}
 	}
 
@@ -99,7 +113,7 @@ function displayWords(words){
 		if(words[i].length === 0) continue
 		let p = document.createElement('p')
 		p.setAttribute('class', 'word')
-		p.textContent = words[i]
+		p.textContent = words[i].toLowerCase()
 		results.appendChild(p)
 
 		p.onclick = function(event){

@@ -2,8 +2,6 @@ from bottle import ( run, request, hook, post )
 import json
 import subprocess
 
-# my code
-
 LETTERS = "letters"
 PREFIX = "prefix"
 SUFFIX = "suffix"
@@ -17,15 +15,14 @@ DICT_PATH = "./SOWPODS.txt"
 ANAGRAM = "./solve"
 
 def solve(letters, prefix, suffix):
-    print("solving...")
-    print(ANAGRAM, DICT_PATH, "letters:", letters, "prefix: ", prefix, "suffix: ", suffix)
+#    print("solving...")
+#    print(ANAGRAM, DICT_PATH, "letters:", letters, "prefix: ", prefix, "suffix: ", suffix)
     
     try:
         res = subprocess.check_output(
                 [ANAGRAM, DICT_PATH, letters, prefix, suffix],
                 universal_newlines=True)
     except subprocess.CalledProcessError:
-        print("got a problem")
         res = ''
     
     return res
@@ -34,9 +31,7 @@ def solve(letters, prefix, suffix):
 # enforce max length
 def clean(s):
     s = s[:LENGTH_LIMIT]
-
     s = s.replace('?', BLANK)
-    #TODO: remove all illegal symbols: numbers, etc.
 
     if s.count(BLANK) > BLANKS_LIMIT:
         s = s.replace(BLANK, '', s.count(BLANK) - BLANKS_LIMIT)
@@ -62,10 +57,10 @@ def process_post():
 
     if PREFIX in json_in:
         prefix = clean(json_in[PREFIX])
-        print("prefix set to %s" % prefix)
+        #print("prefix set to %s" % prefix)
     if SUFFIX in json_in:
         suffix = clean(json_in[SUFFIX])
-        print("suffix set to %s" % suffix)
+        #print("suffix set to %s" % suffix)
     
     letters = clean(json_in[LETTERS])
     

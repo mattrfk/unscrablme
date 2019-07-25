@@ -1,0 +1,97 @@
+html, body {
+  overflow-x: hidden; /* prevent sideways scrolling */
+  margin: 0;
+}
+
+textarea {
+  border-radius:0px;
+  padding:0px;
+  text-indent:2px;
+  height:28px;
+  resize: none;
+  font-size: 1em;
+  border: 1px solid #454545;
+}
+
+textarea:focus {
+  border: 1px solid #4AF9FF;
+}
+
+p {
+  width: 80px;
+  margin: 5px;
+  padding-right:2em;
+  height: 1.2em;
+}
+
+@media (max-width:500px) {
+  #interface {
+    width: 300px;
+  }
+  #input {
+    width:300px;
+  }
+
+  #prefix, #suffix {
+    width: 123px;
+  }
+}
+
+@media (min-width:500px) {
+  #interface {
+    width:400px;
+  }
+  #input {
+    width:400px;
+  }
+
+  #prefix, #suffix {
+    width:173px;
+  }
+}
+
+#input {
+  margin-bottom: 4px;
+}
+
+#prefix, #suffix {
+  margin-top:0px;
+}
+
+#solve {
+  position: absolute;
+  width:45px;
+  height:28px;
+  margin-top:1px;
+  margin-left:3px;
+  border-style:none;
+  background: #4AF9FF;
+  border-radius:3px;
+}
+
+#header {
+  width: 100%;
+  background-color: black;
+  position: fixed;
+  height: 85px;
+  border-bottom: 1px #4AF9FF;
+}
+
+
+#interface {
+  margin: auto;
+  margin-top: 8px;
+}
+
+#results {
+  width: 100%;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+
+  padding-top:6em;
+  margin-left: 2em;
+  padding-right: 2em;
+  padding-bottom: 3px;
+}
